@@ -1,0 +1,120 @@
+<h3> User Form</h3>
+<app-error-view [appErrors]="appErrors"></app-error-view>
+<form [formGroup]="userRegisterForm" (ngSubmit)="onSubmit()">
+  <div class="container">
+
+
+    <div class="row">
+
+      <div class="form-group col-sm-4">
+        <label>First Name</label>
+        <input type="text" formControlName="firstName" class="form-control" />
+        <p *ngIf="userRegisterForm.controls['firstName'].touched && userRegisterForm.controls['firstName'].invalid">
+          <span *ngIf="userRegisterForm.controls['firstName'].errors['required']" [ngStyle]="{'color':'red'}">First Name
+            is Required</span>
+          
+        </p>
+      </div>
+
+      <div class="form-group col-sm-4">
+        <label>Last Name</label>
+        <input type="text" formControlName="lastName" class="form-control" />
+        <p *ngIf="userRegisterForm.controls['lastName'].touched && userRegisterForm.controls['lastName'].invalid">
+          <span *ngIf="userRegisterForm.controls['lastName'].errors['required']" [ngStyle]="{'color':'red'}">Last Name
+            is Required</span>
+          
+        </p>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="form-group col-sm-4">
+        <label>Email</label>
+        <input type="text" formControlName="email" class="form-control" />
+        <p *ngIf="userRegisterForm.controls['email'].touched && userRegisterForm.controls['email'].invalid">
+          <span *ngIf="userRegisterForm.controls['email'].errors['required']" [ngStyle]="{'color':'red'}">Email
+            is Required</span>
+          
+        </p>
+      </div>       
+      <div class="form-group col-sm-4">
+          <label>Date Of Birth</label>
+          <input type="text" class="form-control" [minDate]="minBirthDate" [maxDate]="maxBirthDate" #dp="bsDatepicker"
+            [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY' }" formControlName="dateofbirth" bsDatepicker>
+        </div>
+    </div>
+
+    <div class="row">   
+
+      <div class="form-group col-sm-4">
+        <label>Gender</label>
+        <br />
+        <label>
+          <input type="radio" value="Male" formControlName="gender">
+          <span>Male</span>
+        </label>
+        &nbsp;&nbsp;
+        <label>
+          <input type="radio" value="Female" formControlName="gender">
+          <span>Female</span>
+        </label>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="form-group col-sm-4">
+        <label>State</label>
+        <select (change)="changeCountry($event.target.value)" formControlName="state" class="form-control">
+          <option>Select</option>
+          <option *ngFor="let count of stateList">{{count.name}} </option>
+        </select>
+      </div>
+
+      <div class="form-group col-sm-4">
+        <label>City</label>
+        <select formControlName="city" class="form-control">
+          <option>Select</option>
+          <option *ngFor="let city of cities">{{city}} </option>
+        </select>
+      </div>
+    </div>
+
+    <div>
+      <button type="submit" class="btn btn-primary" >Submit</button>
+    </div>
+
+
+  </div>
+</form>
+
+<div class="common-tbl">
+  <div class="card-body card-bdy-ngx">
+    <ngx-datatable class="material striped" [columnMode]="'force'" [headerHeight]="40"
+      [footerHeight]="40" [rowHeight]="40" [columns]="columns"
+      [columnMode]="ColumnMode.force" [rows]="rows" [limit]="10" [externalPaging]="true"
+      [count]="page.count" (page)='setPage($event)' [offset]="page.number-1">
+      <ngx-datatable-column prop="firstName" [width]="40" name="First Name" [sortable]="false" [width]="80"
+        [resizeable]="false">
+      </ngx-datatable-column>
+      <ngx-datatable-column prop="lastName" [width]="40" name="Last Name" [sortable]="false" [width]="80"
+        [resizeable]="false">
+      </ngx-datatable-column>
+      <ngx-datatable-column prop="dateofbirth" [width]="40" name="Date Of Birth" [sortable]="false" [width]="80"
+        [resizeable]="false">
+       
+      </ngx-datatable-column>
+      <ngx-datatable-column prop="gender" [width]="40" name="Gender" [sortable]="false" [width]="80"
+        [resizeable]="false">
+      </ngx-datatable-column>
+      <ngx-datatable-column prop="state" [width]="40" name="State" [sortable]="false" [width]="80" [resizeable]="false">
+      </ngx-datatable-column>
+      <ngx-datatable-column prop="city" [width]="40" name="City" [sortable]="false" [width]="80" [resizeable]="false">
+      </ngx-datatable-column>     
+    </ngx-datatable>
+    <ng-template #indexTemplate let-value="value">
+      <strong>{{value}}</strong>
+    </ng-template>
+  </div>
+</div>
+
+
